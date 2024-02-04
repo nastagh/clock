@@ -56,7 +56,6 @@ const StopwatchPage = () => {
           setCurrentTime(`${currentMinutes}:${currentSeconds},${currentMilliseconds}`);
           setAddLap([`${count}/${currentMinutes}:${currentSeconds},${currentMilliseconds}`, ...addLap]);
         }
-
     }
   }
 
