@@ -1,0 +1,15 @@
+.settings-container{
+  display: flex;
+  justify-content: space-between;
+  color: rgb(51, 160, 215);
+  margin-bottom: 15px;
+
+  div {
+    cursor: pointer;
+    font-size: 24px;
+
+    &:hover {
+      color: white;
+    }
+  }
+}

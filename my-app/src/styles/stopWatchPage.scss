@@ -1,0 +1,58 @@
+.seconds-button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid grey;
+  padding-bottom: 15px;
+}
+
+.second-button {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.second-button_grey {
+  background-color: #1c1c1e;
+  color: white;
+}
+
+.second-button_green {
+  background-color: #092911;
+  color: #1a7d3a;
+}
+
+.second-button_red {
+  background-color: rgb(179, 61, 61);
+  color: rgb(158, 7, 7);
+}
+
+.move-button-container {
+  display: flex;
+  gap: 15px;
+}
+
+.move-button {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.move-button_notActive {
+  background-color: white;
+}
+
+.move-button_active {
+  background-color: #4b4b52;
+}
+
+.timer {
+  display: flex;
+  justify-content: center;
+  font-size: 100px;
+  margin: 80px 0;
+}
