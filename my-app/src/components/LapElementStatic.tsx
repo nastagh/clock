@@ -1,11 +1,11 @@
 import { EditVariants } from 'pages/WorldClockPage';
 import React from 'react';
-import { getCorrectData } from 'utils/functions';
 import '../styles/lapElement.scss';
 
 
-type LapStaticProps = {
-  data: string
+export type LapStaticProps = {
+  count: number,
+  time: string
 }
 
 
@@ -15,10 +15,10 @@ const LapElementStatic: React.FC<LapStaticProps> = (props) => {
     <>
     <div className='lap-container'>
       <div>
-        {EditVariants.Lap} {props.data.split('/')[0]}
+        {EditVariants.Lap} {props.count}
       </div>
       <div>
-      {props.data.split('/')[1]}
+      {props.time}
       </div>
     </div>   
     </>

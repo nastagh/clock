@@ -1,74 +1,56 @@
 import React, { useEffect, useState } from 'react';
 import { EditVariants } from './WorldClockPage';
 import "../styles/stopWatchPage.scss";
-import { getCorrectData } from 'utils/functions';
-import LapElementStatic from 'components/LapElementStatic';
+import { formatMilliseconds } from 'utils/functions';
+import LapElementStatic, { LapStaticProps } from 'components/LapElementStatic';
 import LapElementDynamic from 'components/LapElementDynamic';
 
 
 const StopwatchPage = () => {
   const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
-  const [reset, setReset] = useState(false);
-  const [addLap, setAddLap] = useState<string[]>([]);
+  const [laps, setLaps] = useState<LapStaticProps[]>([]);
   const [count, setCount] = useState(1);
   const [lapDynamic, setLapDynamic] = useState(false);
-  const [currentTime, setCurrentTime] = useState('00:00,00');
+  const [currentTime, setCurrentTime] = useState(0);
 
-  const minutes = Math.floor((time % 360000) / 6000);
-  const seconds = Math.floor((time % 6000) / 100);
-  const milliseconds = time % 100;
+  const formatedTime = formatMilliseconds(time);
 
   useEffect(() => {
     if (isRunning) {
       const timer = setInterval(() => setTime(time + 1), 10);
       return () => clearInterval(timer)
     }
-  }, [isRunning, time])
+  }, [isRunning, time]);
 
   const startAndStop = () => {
     setIsRunning(!isRunning);
     setLapDynamic(true);
-    setReset(false);
-
-    if (isRunning) {
-      setReset(true);
-    }
   }
 
-  const handleResetLap = (e: React.SyntheticEvent) => {
-
-    switch ((e.target as HTMLButtonElement).value) {
-      case EditVariants.Reset:
-        setTime(0);
-        setReset(false);
-        setAddLap([]);
-        setCount(1);
-        setLapDynamic(false);
-        setCurrentTime('00:00,00');
-        break;
-      case EditVariants.Lap:
-        if (isRunning) {
-          setCount(count + 1);
-          let currentMinutes = getCorrectData(minutes);
-          let currentSeconds = getCorrectData(seconds);
-          let currentMilliseconds = getCorrectData(milliseconds);
-          setCurrentTime(`${currentMinutes}:${currentSeconds},${currentMilliseconds}`);
-          setAddLap([`${count}/${currentMinutes}:${currentSeconds},${currentMilliseconds}`, ...addLap]);
-        }
+  const handleResetLap = () => {
+    if(isRunning) {
+      setCount(count + 1);
+      setCurrentTime(time);
+      setLaps([{count, time: formatMilliseconds(time-currentTime)},...laps])
+    } else {
+      setTime(0);
+      setLaps([]);
+      setCount(1);
+      setLapDynamic(false);
+      setCurrentTime(0);
     }
   }
 
   return (
     <>
       <div className='timer'>
-        {`${getCorrectData(minutes)}:${getCorrectData(seconds)},${getCorrectData(milliseconds)}`}
+        {formatedTime}
       </div>
       <div className='seconds-button-container'>
-        <button onClick={e => handleResetLap(e)}
-          className='second-button second-button_grey'
-          value={!reset ? EditVariants.Lap : EditVariants.Reset}>
-          {!reset ? EditVariants.Lap : EditVariants.Reset}
+        <button onClick={handleResetLap}
+          className='second-button second-button_grey'>
+          {(isRunning || time===0) ? EditVariants.Lap : EditVariants.Reset}
         </button>
         <div className='move-button-container'>
           <div className='move-button move-button_notActive'>
@@ -84,17 +66,14 @@ const StopwatchPage = () => {
       {lapDynamic && <LapElementDynamic
         count={count}
         startTime={currentTime}
-        dynamicTime={`${getCorrectData(minutes)}:${getCorrectData(seconds)},${getCorrectData(milliseconds)}`}
+        dynamicTime={time}
         />}
-      {addLap.map((item) => <LapElementStatic data={item}/>)}
+      {laps.map((item) => <LapElementStatic {...item}/>)}
     </>
   )
 }
 
 export default StopwatchPage;
-
-
-//random color
 
 
 

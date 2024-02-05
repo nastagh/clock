@@ -1,16 +1,13 @@
 import { EditVariants } from 'pages/WorldClockPage';
 import React from 'react';
-import { getDifference } from 'utils/functions';
+import { formatMilliseconds} from 'utils/functions';
 import '../styles/lapElement.scss';
 
 
 type LapProps = {
   count: number,
-  startTime: string,
-  dynamicTime: string
-  // minutes: number,
-  // seconds: number,
-  // milliseconds: number
+  startTime: number,
+  dynamicTime: number
 }
 
 
@@ -22,8 +19,7 @@ const LapElementDynamic: React.FC<LapProps> = (props) => {
         {EditVariants.Lap} {props.count}
       </div>
       <div>
-        {getDifference(props.startTime, props.dynamicTime)}
-      {/* {`${getCorrectData(props.minutes)}:${getCorrectData(props.seconds)},${getCorrectData(props.milliseconds)}`} */}
+        {formatMilliseconds(props.dynamicTime-props.startTime)}
       </div>
     </div>   
     </>
